@@ -1,9 +1,36 @@
+import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { render } from '@lit-labs/ssr';
 import { collectResult } from '@lit-labs/ssr/lib/render-result.js';
 import { defineConfig } from 'vite';
+import type { Plugin } from 'vite';
+
+interface BibleSource {
+  books: { chapters: { verses: { text: string }[] }[] }[];
+}
+
+function chapterCounts(): Plugin {
+  const id = '\0bible-chapter-counts';
+  const source = fileURLToPath(new URL('./src/assets/elberfelder1871.json', import.meta.url));
+  return {
+    name: 'bible-chapter-counts',
+    resolveId(name) {
+      if (name === 'virtual:bible-chapter-counts') return id;
+    },
+    async load(name) {
+      if (name !== id) return;
+      this.addWatchFile(source);
+      const { books } = JSON.parse(await readFile(source, 'utf8')) as BibleSource;
+      const counts = books.map(({ chapters }) => chapters.map(({ verses }) =>
+        verses.reduce((total, { text }) =>
+          total + (text.match(/[\p{L}\p{N}]+(?:[-'’][\p{L}\p{N}]+)*/gu)?.length ?? 0), 0)));
+      return `export default ${JSON.stringify(counts)};`;
+    },
+  };
+}
 
 export default defineConfig({
-  plugins: [{
+  plugins: [chapterCounts(), {
     name: 'lit-homepage-dev',
     apply: 'serve',
 

@@ -1,0 +1,5 @@
+@import './theme.css';
+@import './reset.css';
+@import './print.css';
+
+:root { --hero-image: url('../assets/open-bible.webp'); }

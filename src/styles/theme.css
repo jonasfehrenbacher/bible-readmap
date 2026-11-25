@@ -1,0 +1,16 @@
+:root {
+  --primary: #202b24;
+  --secondary: #3e5747;
+  --accent: #dec188;
+  --paper: #fffefa;
+  --background: #f5f3ed;
+  --soft: #ebece3;
+  --muted: #5d665e;
+  --line: #d9ded5;
+  --marker-navy: #314a70;
+  --marker-red: #a34038;
+  --marker-green: var(--secondary);
+  --marker-gold: var(--accent);
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: 'Segoe UI', system-ui, sans-serif;
+}

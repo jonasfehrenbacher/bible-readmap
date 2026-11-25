@@ -1,0 +1,50 @@
+.print-document { font-family: Arial, sans-serif; color: var(--primary); }
+.print-document__page {
+  position: relative;
+  background: var(--paper);
+  box-sizing: border-box;
+  width: 841.89pt;
+  height: 595.28pt;
+  margin: 1rem auto;
+  padding: 22pt;
+}
+.print-document__header { display:flex; justify-content:space-between; align-items:baseline; height:26pt; }
+.print-document__title { font:700 19pt Georgia, serif; margin:0; }
+.print-document__date-range { font-size:8.5pt; }
+.print-document__summary { font-size:8.5pt; height:17pt; margin:0; color:var(--muted); }
+.print-document__row { display:grid; grid-template-columns:repeat(var(--panel-count),minmax(0,1fr)); gap:var(--panel-gap); }
+.print-document__week { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); grid-template-rows:minmax(0,1fr); }
+.print-document__row--days { height:var(--row-height); grid-template-rows:minmax(0,1fr); }
+.print-document__weekday { background:var(--table-color); color:var(--secondary); line-height:14pt; text-align:center; font-size:7.5pt; }
+.print-document__cell {
+  box-sizing:border-box; border:solid var(--line); border-width:0 .36pt .36pt 0; padding:var(--row-padding) var(--cell-padding) 0;
+  font-size:var(--entry-font); line-height:var(--entry-line); min-width:0;
+}
+.print-document__week:first-child > .print-document__cell:first-child,
+.print-document__table--spaced .print-document__cell:first-child { border-left-width:.36pt; }
+.print-document__cell--empty { background:var(--table-color); }
+.print-document__cell--month { box-shadow:inset 0 0 0 .7pt var(--marker-color); }
+.print-document__metadata { display:flex; gap:var(--meta-gap); align-items:center; height:var(--meta-height); line-height:var(--meta-height); white-space:nowrap; color:var(--muted); font-size:var(--meta-font); }
+.print-document__day-number { color:var(--primary); }
+.print-document__checkbox { flex:none; width:var(--checkbox-size); height:var(--checkbox-size); box-sizing:border-box; border:.55pt solid currentColor; align-self:flex-start; margin-left:auto; }
+.print-document__marker--border { flex:none; width:.62em; height:.62em; border:.55pt solid currentColor; display:inline-block; }
+.print-document__line { display:flex; gap:var(--reading-gap); height:var(--entry-line); }
+.print-document__reading { display:flex; flex:none; align-items:center; gap:1.2pt; height:100%; box-sizing:border-box; white-space:nowrap; }
+.print-document__reading--book { outline:.6pt solid var(--marker-color); outline-offset:-.35pt; padding-inline:1pt; }
+.print-document__marker { color:var(--marker-color); font-size:.8em; }
+.print-document__footer {
+  display:flex; align-items:center; gap:9pt; position:absolute; bottom:22pt; left:22pt; right:22pt;
+  color:var(--muted); font-size:8pt;
+}
+.print-document__legend { display:flex; align-items:center; gap:2.5pt; }
+.print-document__page-number { margin-left:auto; }
+.print-mount { display:none; }
+@page { size: A4 landscape; margin: 0; }
+@media print {
+  html, body { margin:0; background:var(--paper); }
+  body > readmap-app { display:none !important; }
+  .print-mount { display:block; }
+  .print-document { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .print-document__page { margin:0; break-inside:avoid; }
+  .print-document__page:not(:last-child) { break-after:page; }
+}
